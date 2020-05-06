@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elastic Header</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/dynamics.js@1.1.5/lib/dynamics.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <!-- template for the component -->
+  </head>
+  <body>
+    <article id="app" class="flashcard">
+      <input id="flashcard-1" type="checkbox" />
+      <label for="flashcard-1">
+        <section class="front">
+          <div class="refresh">
+            <img width="50px" src="refresh.svg" />
+          </div>
+          <div class="fontText">
+            {{front}}
+            <img v-on:click="refresh()" width="20px" src="refresh.svg" />
+          </div>
+        </section>
+
+        <section class="back">
+          {{back}}
+        </section>
+      </label>
+    </article>
+
+    <script>
+      let vue = new Vue({
+        el: "#app",
+        data: {
+          front: "You loaded this page on ",
+          back: "asas",
+          jsonfile: []
+        },
+        beforeMount: function() {
+          let wordAray = [];
+          fetch("/words.json")
+            .then(r => r.json())
+            .then(
+              json => {
+                Object.keys(json).forEach(x => {
+                  console.log(x);
+                  wordAray.push({ uk: x, en: json[x] });
+                });
+                this.jsonfile = wordAray;
+                let id = this.getRandom(0, wordAray.length);
+                this.front = wordAray[id]["uk"];
+                this.back = wordAray[id]["en"];
+              },
+              response => {
+                console.log("Error loading json:", response);
+              }
+            );
+        },
+        methods: {
+          getRandom: (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+          },
+          refresh: function() {
+            let id = this.getRandom(0, this.jsonfile.length);
+            this.front = this.jsonfile[id]["uk"];
+            this.back = this.jsonfile[id]["en"];
+          }
+        }
+      });
+      // vue.getJson();
+    </script>
+  </body>
+</html>
