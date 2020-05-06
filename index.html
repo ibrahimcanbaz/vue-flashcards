@@ -4,7 +4,7 @@
     <title>Elastic Header</title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/dynamics.js@1.1.5/lib/dynamics.js"></script>
-    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <!-- template for the component -->
   </head>
   <body>
@@ -37,7 +37,7 @@
         },
         beforeMount: function() {
           let wordAray = [];
-          fetch("/words.json")
+          fetch("words.json")
             .then(r => r.json())
             .then(
               json => {
