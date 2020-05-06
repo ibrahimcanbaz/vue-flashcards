@@ -50,7 +50,7 @@ article.flashcard label {
 }
 article.flashcard section {
   display: block;
-  font: 40px "Oswald", sans-serif;
+  font: 5em "Oswald", sans-serif;
   text-align: center;
   line-height: 400px;
   width: 100%;
