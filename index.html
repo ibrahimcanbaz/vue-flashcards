@@ -42,7 +42,7 @@
             .then(
               json => {
                 Object.keys(json).forEach(x => {
-                  console.log(x);
+               
                   wordAray.push({ uk: x, en: json[x] });
                 });
                 this.jsonfile = wordAray;
