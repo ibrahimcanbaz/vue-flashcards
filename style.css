@@ -29,8 +29,7 @@ article.flashcard {
   margin: 0px auto;
   border: 1px rgba(255, 255, 255, 0.03) solid;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  max-width: 700px;
+  width: 95%;
   height: 100%;
   max-height: 400px;
 }
