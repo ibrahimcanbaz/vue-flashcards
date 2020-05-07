@@ -14,7 +14,7 @@
     <label for="flashcard-1">
       <section class="front">
         <div class="refresh">
-          {{jsonfile.length}}
+          {{jsonfile.length}} - {{visibleCount}}
         </div>
         <div class="fontText">
           {{front}}
@@ -33,19 +33,17 @@
     let vue = new Vue({
       el: "#app",
       data: {
-        front: "You loaded this page on ",
-        back: "asas",
+        front: "You loaded this page but now words loaded ",
+        back: "sorry",
         jsonfile: [],
-        index: 0
+        index: 0,
+        visibleCount:0,
       },
       beforeMount: function () {
         let wordAray = [];
         if (localStorage.getItem("@list")) {
           this.jsonfile = JSON.parse(localStorage.getItem("@list"));
-          let id = this.getRandom(0, this.jsonfile.length);
-          this.front = this.jsonfile[id]["uk"];
-          this.back = this.jsonfile[id]["en"];
-          this.index = id;
+          this.randomlySetWord();
           return;
         }
         //confirm("Do you want to reset yo ur list ?");
@@ -59,10 +57,7 @@
               });
               this.jsonfile = wordAray;
               localStorage.setItem("@list", JSON.stringify(this.jsonfile));
-              let id = this.getRandom(0, wordAray.length);
-              this.front = wordAray[id]["uk"];
-              this.back = wordAray[id]["en"];
-              this.index = id;
+              this.randomlySetWord();
             },
             response => {
               console.log("Error loading json:", response);
@@ -74,15 +69,20 @@
           return Math.floor(Math.random() * (max - min + 1)) + min;
         },
         refresh: function () {
-          let id = this.getRandom(0, this.jsonfile.length);
-          this.front = this.jsonfile[id]["uk"];
-          this.back = this.jsonfile[id]["en"];
-          this.index = id;
+          this.randomlySetWord();
         },
         setIKnow: function () {
           this.jsonfile.splice(this.index, 1);
           localStorage.setItem("@list", JSON.stringify(this.jsonfile));
           this.refresh();
+        },
+        randomlySetWord(){
+          let id = this.getRandom(0, this.jsonfile.length);
+          this.front = this.jsonfile[id]["uk"];
+          this.back = this.jsonfile[id]["en"];
+          this.index = id;
+          this.visibleCount = this.jsonfile[id]["vc"]? this.jsonfile[id]["vc"] = this.jsonfile[id]["vc"]+1 : this.jsonfile[id]["vc"] = 1 ;
+          this.jsonfile[id]["vc"]
         }
       }
     });
