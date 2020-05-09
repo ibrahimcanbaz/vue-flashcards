@@ -120,10 +120,10 @@
         },
         editAction() {
           if (this.editFront.length>2 && this.editBack.length >2 && this.id !== null) {
-            this.jsonfile[this.id]['uk'] = this.editBack;
-            this.jsonfile[this.id]['en'] = this.editFront;
-            this.front = this.editBack;
-            this.back = this.editFront;
+            this.jsonfile[this.id]['uk'] = this.editFront;
+            this.jsonfile[this.id]['en'] = this.editBack;
+            this.front = this.editFront;
+            this.back = this.editBack;
             localStorage.setItem('@list', JSON.stringify(this.jsonfile));
             this.showEdit = false;
           } else {
