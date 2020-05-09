@@ -12,21 +12,37 @@
   <article id="app" class="flashcard">
     <input id="flashcard-1" type="checkbox" />
     <label for="flashcard-1">
-      <section class="front">
-        <div class="refresh">
+      <section class="edit-mode" v-if="showEdit">
+            <input v-model="editFront" placeholder="edit me">
+            <input v-model="editBack" placeholder="edit me">
+            <input type="hidden" v-model="id" >
+            <input v-if="id" v-on:click="editAction()" type="submit" value="Edit" />
+            <input v-if="!id" v-on:click="addAction()" type="submit" value="Submit" />
+      </section>
+      <section class="front" v-if="!showEdit">
+        <div class="refresh" style="grid-area: header-l">
+          -
+        </div>
+        <div class="refresh" style="grid-area: header-c">
           {{jsonfile.length}} - {{visibleCount}}
         </div>
-        <div class="fontText">
+        <div class="refresh" style="grid-area: header-r">
+          -
+        </div>
+        <div class="fontText" style="grid-area: middle-c">
           {{front}}
         </div>
-        <div class="buttons">
+        <div class="buttons" style="grid-area: bottom-c">
           <img v-on:click="setIKnow()" width="50em" src="checked.svg" />
+          <img v-on:click="addWord()" width="50em" src="add.svg" />
+          <img v-on:click="editWord()" width="50em" src="settings.svg" />
         </div>
       </section>
-      <section v-on:click="refresh()" class="back">
+      <section v-on:click="refresh()" class="back" v-if="!showEdit">
         {{back}}
       </section>
     </label>
+   
   </article>
 
   <script>
@@ -38,6 +54,10 @@
         jsonfile: [],
         index: 0,
         visibleCount:0,
+        showEdit:false,
+        editFront:'',
+        editBack:'',
+        id:null,
       },
       beforeMount: function () {
         let wordAray = [];
@@ -75,6 +95,40 @@
           this.jsonfile.splice(this.index, 1);
           localStorage.setItem("@list", JSON.stringify(this.jsonfile));
           this.refresh();
+        },
+        editWord(){
+          this.editFront = this.front;
+          this.editBack = this.back;
+          this.id = this.index;
+          this.showEdit = true;
+        },
+        addWord(){
+          this.editFront = '';
+          this.editBack = '';
+          this.id = null;
+          this.showEdit = true;
+        },
+        addAction(){
+          if (this.editFront.length>2 && this.editBack.length >2) {
+            this.jsonfile.push({uk:this.editFront,en:this.editBack});
+            localStorage.setItem('@list', JSON.stringify(this.jsonfile));
+            this.showEdit = false;
+          } else {
+            alert('Fill it. !!!')
+          }
+         
+        },
+        editAction() {
+          if (this.editFront.length>2 && this.editBack.length >2 && this.id !== null) {
+            this.jsonfile[this.id]['uk'] = this.editBack;
+            this.jsonfile[this.id]['en'] = this.editFront;
+            this.front = this.editBack;
+            this.back = this.editFront;
+            localStorage.setItem('@list', JSON.stringify(this.jsonfile));
+            this.showEdit = false;
+          } else {
+            alert('Fill it. !!!')
+          }
         },
         randomlySetWord(){
           let id = this.getRandom(0, this.jsonfile.length);

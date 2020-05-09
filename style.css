@@ -38,7 +38,7 @@ article.flashcard input[type="checkbox"] {
 }
 article.flashcard input[type="checkbox"]:checked ~ label section.front {
   height: 35%;
-
+  font-size: 5vw;
 }
 article.flashcard input[type="checkbox"]:checked ~ label section.back {
   height: 65%;
@@ -47,7 +47,7 @@ article.flashcard label {
   display: block;
   width: 100%;
   height: 100%;
-  background-color: aqua;
+  background-color: ddd;
 }
 article.flashcard section {
   display: grid;
@@ -65,8 +65,61 @@ article.flashcard section.front {
   width: 100%;
   display: grid;
   align-items: start;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(1fr);
   grid-template-rows: repeat(2fr);
+  grid-template-areas:
+      "header-l header-c header-r"
+      "middle-c middle-c middle-c"
+      "bottom-c bottom-c bottom-c";
+}
+article.flashcard section.edit-mode {
+  color: #ba1f53;
+  background: #ddd;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(1fr);
+ 
+}
+
+input {
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #2c3e50;
+  font-size: 3vw;
+  background: #cfd9db;
+  height: 3.5em;
+  padding: 0.5em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -moz-border-radius: none;
+  -webkit-border-radius: none;
+  border-radius: none;
+}
+input:focus {
+  -moz-box-shadow: #2c3e50 0 0 0 2px inset;
+  -webkit-box-shadow: #2c3e50 0 0 0 2px inset;
+  box-shadow: #2c3e50 0 0 0 2px inset;
+}
+input[type=submit] {
+  width: 100%;
+  background: #ba1f53;
+  color: #ecf0f1;
+}
+
+input[type=submit]:focus {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+input[type=submit]:active {
+  background: #229955;
 }
 
 article.flashcard section.back {
